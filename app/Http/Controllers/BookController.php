@@ -14,8 +14,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
-    }
+        return Book::all() ;
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +35,20 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            "title" => "required",
+            "author" => "required",
+            "isbn" => "required",
+            "NP" => "required",
+            "status" => "required",
+            "publish_date" => "required",
+            "genre_id" => "required",
+            "collection_id" => "required",
+        ]) ;
+
+        $book = Book::create($request->all()) ;
+        return $book ;
     }
 
     /**

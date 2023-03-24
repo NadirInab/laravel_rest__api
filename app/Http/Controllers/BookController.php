@@ -57,9 +57,9 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
-    {
-        //
+    public function show($id)
+    {   
+        return Book::find($id) ;
     }
 
     /**
@@ -80,9 +80,22 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            "title" => "required",
+            "author" => "required",
+            "isbn" => "required",
+            "NP" => "required",
+            "status" => "required",
+            "publish_date" => "required",
+            "genre_id" => "required",
+            "collection_id" => "required",
+        ]) ;
+
+        $book = Book::find($id) ;
+        $book->update($request->all()) ;
+        return $book ;
     }
 
     /**
@@ -91,8 +104,8 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //
+        return Book::destroy($id) ;
     }
 }

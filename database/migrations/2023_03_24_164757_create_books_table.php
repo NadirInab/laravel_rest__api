@@ -14,7 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements("id") ;
+            $table->string("title") ;
+            $table->string("author") ;
+            $table->integer("isbn")->unique() ;
+            $table->integer("NP") ;
+            $table->string("status" );
+            $table->date("publish_date") ;
+            $table->unsignedBigInteger("genre_id") ;
+            $table->unsignedBigInteger("collection_id") ;
+            $table->foreign("genre_id")->references("id")->on("genres")->onDelete("cascade");
+            $table->foreign("collection_id")->references("id")->on("collections")->onDelete("cascade") ;
             $table->timestamps();
         });
     }

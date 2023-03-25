@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookController ;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
+use App\Models\Book;
+use App\Models\Genre;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +23,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// ==================
 
-// Route::resource("books", "BookController") ;
-// Route::resource('books', 'BookController');
+Route::group(["middleware" => ["auth:sanctum"]], function () {
+    Route::resource("books", BookController::class)->only(["store", "update", "destroy"]);
+    Route::resource("genre", GenreController::class)->only(["store", "update", "destroy"]);
+    Route::post("logOut", [AuthController::class, "logOut"]) ;
+});
+// ==================
 
-Route::get("books", [BookController::class, "index"]) ;
-Route::post("books", [BookController::class, "store"]) ;
-// Route::get("books", [BookController::class, "index"]) ;
+// books CRUD ;
+Route::get("/books", [BookController::class, "index"]);
+Route::get("/books/{id}", [BookController::class, "show"]);
+Route::get("/books/search/{title}", [BookController::class, "search"]);
+Route::get("/books/search/author/{author}", [BookController::class, "searchAuthor"]);
+
+// Genre Crud ;
+Route::get("/genre", [GenreController::class, "index"]);
+Route::get("/genre/{id}", [GenreController::class, "show"]);
+
+
+Route::post("register", [AuthController::class, "register"]) ;

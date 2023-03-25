@@ -48,7 +48,9 @@ class BookController extends Controller
         ]) ;
 
         $book = Book::create($request->all()) ;
-        return $book ;
+        return response()->json([
+            'success' => 'Book has been well added',
+        ], 201);
     }
 
     /**
@@ -95,7 +97,9 @@ class BookController extends Controller
 
         $book = Book::find($id) ;
         $book->update($request->all()) ;
-        return $book ;
+        return response()->json([
+            'success' => 'Book has been well updated',
+        ], 201);
     }
 
     /**
@@ -106,6 +110,32 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        return Book::destroy($id) ;
+        Book::destroy($id) ;
+        return response()->json([
+            'success' => 'Book has been well deleted',
+        ], 201);
+    }
+
+    /**
+     * Search  by title the specified resource from storage.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function search($title)
+    {
+        $book = Book::where("title", "LIKE", "%$title%")->get() ;
+        return $book ;
+    }
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function searchAuthor($author)
+    {
+        $book = Book::where("author", "LIKE", "%$author%")->get() ;
+        return $book ;
     }
 }

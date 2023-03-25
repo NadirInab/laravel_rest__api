@@ -42,5 +42,6 @@ Route::get("/books/search/author/{author}", [BookController::class, "searchAutho
 Route::get("/genre", [GenreController::class, "index"]);
 Route::get("/genre/{id}", [GenreController::class, "show"]);
 
-
+// Log In | Register
 Route::post("register", [AuthController::class, "register"]) ;
+Route::post("logIn", [AuthController::class, "logIn"]) ;

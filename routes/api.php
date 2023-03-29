@@ -18,19 +18,19 @@ use App\Models\Genre;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// ==================
 
+// ==================
 Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::resource("books", BookController::class)->only(["store", "update", "destroy"]);
     Route::resource("genre", GenreController::class)->only(["store", "update", "destroy"]);
     Route::post("logOut", [AuthController::class, "logOut"]) ;
 });
 // ==================
+
 
 // books CRUD ;
 Route::get("/books", [BookController::class, "index"]);
@@ -45,3 +45,5 @@ Route::get("/genre/{id}", [GenreController::class, "show"]);
 // Log In | Register
 Route::post("register", [AuthController::class, "register"]) ;
 Route::post("logIn", [AuthController::class, "logIn"]) ;
+
+

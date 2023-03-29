@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 // ==================
 Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::resource("books", BookController::class)->only(["store", "update", "destroy"]);
@@ -30,7 +29,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post("logOut", [AuthController::class, "logOut"]) ;
 });
 // ==================
-
 
 // books CRUD ;
 Route::get("/books", [BookController::class, "index"]);

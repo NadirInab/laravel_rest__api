@@ -34,6 +34,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $addGenre = "add Genre" ;
         $updateGenre = "update Genre" ;
         $deleteGenre = "delete Genre" ;
+
         // Book Permissions .
         Permission::create(["name" => $addBook]);
         Permission::create(["name" => $updateBook]);
@@ -49,14 +50,13 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(["name" => $deleteGenre]) ;
         
         // define roles && asign role :
-
         // Admin
         Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());
 
         // User
         Role::create(["name" => "user"])->givePermissionTo([
-            $viewBook, 
             $viewBooks, 
+            $viewBook, 
             $searchAuthor, 
             $searchBook, 
         ]) ;

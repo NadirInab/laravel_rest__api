@@ -138,4 +138,25 @@ class BookController extends Controller
         $book = Book::where("author", "LIKE", "%$author%")->get() ;
         return $book ;
     }
-}
+
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+        public function filter(Request $request){
+            // $book = Book::with(['genre']);
+            
+            // if ($request->genre) {
+            //     $book->whereHas('genre', function($book) use($request){
+            //         $book->where('name', 'LIKE',"%$request->name%");
+            //     });
+            // }
+        
+            // $Tbook = $book->get();
+            return response()->json([
+                'data'=>$request,
+            ], 200);
+        }
+    }

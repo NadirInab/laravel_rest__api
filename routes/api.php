@@ -31,6 +31,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 // ==================
 
 // books CRUD ;
+Route::get("/books/category/{name}", [BookController::class, "filter"]);
 Route::get("/books", [BookController::class, "index"]);
 Route::get("/books/{id}", [BookController::class, "show"]);
 Route::get("/books/search/{title}", [BookController::class, "search"]);

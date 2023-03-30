@@ -18,21 +18,18 @@ use App\Models\Genre;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// ==================
 Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::resource("books", BookController::class)->only(["store", "update", "destroy"]);
     Route::resource("genre", GenreController::class)->only(["store", "update", "destroy"]);
     Route::post("logOut", [AuthController::class, "logOut"]) ;
 });
-// ==================
+
 
 // books CRUD ;
-Route::get("/books/category/{name}", [BookController::class, "filter"]);
+Route::get("filter", [BookController::class, "filter"]);
+
 Route::get("/books", [BookController::class, "index"]);
+
 Route::get("/books/{id}", [BookController::class, "show"]);
 Route::get("/books/search/{title}", [BookController::class, "search"]);
 Route::get("/books/search/author/{author}", [BookController::class, "searchAuthor"]);
@@ -45,4 +42,15 @@ Route::get("/genre/{id}", [GenreController::class, "show"]);
 Route::post("register", [AuthController::class, "register"]) ;
 Route::post("logIn", [AuthController::class, "logIn"]) ;
 
+Route::post('forgotPassword',[AuthController::class, 'forgotPassword']);
+Route::post('resetpassword',[AuthController::class, 'resetpassword'])->name('password.reset') ;
 
+
+
+
+
+
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });

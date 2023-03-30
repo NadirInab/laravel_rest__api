@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash ;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Requests\ForgetPasswordAuthRequest;
+use App\Http\Requests\ResetPasswordAuthRequest;
+use Illuminate\Support\Facades\Password;
 
 
 class AuthController extends Controller
@@ -19,11 +21,14 @@ class AuthController extends Controller
             "password" => "required|string|confirmed"
         ]) ;
 
+
         $user = User::create([
             "name" => $data["name"], 
             "email" => $data["email"], 
             "password" => bcrypt($data["name"]) , 
         ]) ;
+
+        $user->assignRole(['user']);
 
         $token = $user->createToken("myToken")->plainTextToken ;
 
@@ -44,12 +49,14 @@ class AuthController extends Controller
         ]) ;
         $data = $req->only("email", "password") ;
 
-
         //check if user exist ;
-        $user = User::where("email", $data["email"])->first() ;
+        $user = User::where("email", $data["email"])->get() ;
+        // $user = User::all();
+        // $hach = !Hash::check($data["password"], $user->password) ;
+        // return response()->json($hach, 201);
         
         // return $user ;  && !Hash::check($data["password"], $user->password)
-        if(!$user){
+        if(!$user && !Hash::check($data["password"], $user->password)){
             return response([
                 "message" => "bad creds"
             ], 401 ) ;
@@ -63,6 +70,7 @@ class AuthController extends Controller
         ] ;
 
         return response()->json($response, 201);
+        // return response()->json('tesy', 201);
     }
 
 
@@ -78,10 +86,10 @@ class AuthController extends Controller
     public function forgotPassword(ForgetPasswordAuthRequest $request)
     {
         $response = Password::sendResetLink($request->validated());
-
-        return $response == Password::RESET_LINK_SENT
-            ? response()->json(['success' => true])
-            : response()->json(['error' => 'Failed to send reset link'], 500);
+        return response()->json(['success' =>' hiii']);
+        // return $response == Password::RESET_LINK_SENT
+        //     ? response()->json(['success' => true])
+        //     : response()->json(['error' => 'Failed to send reset link'], 500);
     }
 
     public function resetpassword(ResetPasswordAuthRequest $request)

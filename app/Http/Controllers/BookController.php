@@ -145,7 +145,7 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-        public function filter(Request $request){
+        // public function filter(Request $request){
             // $book = Book::with(['genre']);
             
             // if ($request->genre) {
@@ -155,8 +155,23 @@ class BookController extends Controller
             // }
         
             // $Tbook = $book->get();
+        //     return response()->json([
+        //         'data'=>$request,
+        //     ], 200);
+        // }
+
+        public function filter(Request $request){
+            $b = book::with('genre');
+    
+            if ($request->genre) {
+                $b->whereHas('genre', function($book) use($request){
+                    $book->where('name', $request->genre);
+                });
+            }
+        
+            $book = $b->get();
             return response()->json([
-                'data'=>$request,
+                'data'=>$book,
             ], 200);
         }
     }

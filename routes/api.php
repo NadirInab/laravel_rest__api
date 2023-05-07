@@ -44,7 +44,7 @@ Route::post("logIn", [AuthController::class, "logIn"]) ;
 
 Route::post('forgotPassword',[AuthController::class, 'forgotPassword']);
 Route::post('resetpassword',[AuthController::class, 'resetpassword'])->name('password.reset') ;
-Route::put("update", [BookController::class, "update"]) ;
+// Route::put("update", [BookController::class, "update"]) ;
 
 
 
